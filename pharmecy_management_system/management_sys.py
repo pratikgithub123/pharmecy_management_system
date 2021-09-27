@@ -111,3 +111,29 @@ def login_page():
         conn.commit()
         conn.close()
         messagebox.showinfo("Deleted successfully", "Data Deleted sucessfully")
+
+        def edit():
+            global editor
+            editor = Tk()
+            editor.title('Update Data')
+            editor.geometry('600x600')
+            # Create a databases or connect to one
+            conn = sqlite3.connect('address_book1.db')
+            # Create cursor
+            c = conn.cursor()
+            record_id = txtsearch.get()
+            # query of the database
+            c.execute("SELECT * FROM addresses WHERE oid=" + record_id)
+            records = c.fetchall()
+            # Creating global variable for all text boxes
+            global ref_no_editor
+            global Company_editor
+            global med_type_editor
+            global med_name_editor
+            global lot_no_editor
+            global issue_editor
+            global dosage_editor
+            global tab_price_editor
+            global precs_editor
+            global uses_editor
+            global side_effects_editor
