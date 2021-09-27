@@ -73,3 +73,23 @@ def login_verify():
     else:
         user_not_found()
 #popup for login sucess
+def login_sucess():
+    global login_success_screen
+    messagebox.showinfo("Login","Login Success")
+    login_page()
+#popup for password not recognised
+def password_not_recognised():
+    global password_not_recognised_screen
+    messagebox.showinfo("Incorrect", "Password Not Recognised")
+# popup for user not found
+def user_not_found():
+    global user_not_found_screen
+    messagebox.showinfo("Not found","User not found")
+# clearing popup
+def delete_login_success():
+    login_success_screen.destroy()
+def delete_password_not_recognised():
+    password_not_recognised_screen.destroy()
+def delete_user_not_found():
+    user_not_found_screen.destroy()
+# designing main window
