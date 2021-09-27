@@ -1,7 +1,3 @@
-
-# module import
-# module imports
-
 from tkinter import *
 import os
 from tkinter import messagebox
@@ -29,3 +25,25 @@ def register():
     password_entry.pack()
     Label(register_screen, text="").pack()
     Button(register_screen, text="Register", width=10, height=1 ,font=("Times", "12", "bold"), command=register_user).pack()
+def login():
+    global login_screen
+    login_screen = Toplevel(main_screen)
+    login_screen.title("Login")
+    login_screen.geometry("310x230")
+    Label(login_screen, text="Enter the details  to login",font=("Times", "15", "bold italic")).pack()
+    Label(login_screen, text="").pack()
+    global username_verify
+    global password_verify
+    username_verify = StringVar()
+    password_verify = StringVar()
+    global username_login_entry
+    global password_login_entry
+    Label(login_screen, text="Username  ",font=("Times", "12", "bold")).pack()
+    username_login_entry = Entry(login_screen, textvariable=username_verify,font=("Times", "12", "bold"))
+    username_login_entry.pack()
+    Label(login_screen, text="").pack()
+    Label(login_screen, text="Password  ",font=("Times", "12", "bold")).pack()
+    password_login_entry = Entry(login_screen, textvariable=password_verify,font=("Times", "12", "bold"))
+    password_login_entry.pack()
+    Label(login_screen, text="").pack()
+    Button(login_screen, text="Login", width=10, height=1, font=("Times", "12", "bold"),command=login_verify).pack()
