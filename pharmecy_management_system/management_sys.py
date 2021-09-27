@@ -49,3 +49,65 @@ def login_page():
         })
         conn.commit()
         conn.close()
+        # clear the text boxes
+        Refno_entry.delete(0, END)
+        Company_entry.delete(0, END)
+        MedType_combo.delete(0, END)
+        Medname_entry.delete(0, END)
+        Lot_entry.delete(0, END)
+        Issue_entry.delete(0, END)
+        Expiry_entry.delete(0, END)
+        Dosage_entry.delete(0, END)
+        Tablets_entry.delete(0, END)
+        Precs_entry.delete(0, END)
+        Uses_entry.delete(0, END)
+        Sideeffects_entry.delete(0, END)
+        messagebox.showinfo("Medicine added", "MEDICINE ADDED SUCCESSFULLY")
+
+    def query():
+        # Create a databases or connect to one
+        conn = sqlite3.connect('address_book1.db')
+        # Create cursor
+        c = conn.cursor()
+        # query of the database
+        c.execute("SELECT *, oid FROM addresses")
+        records = c.fetchall()
+        print("After show button", records)
+        # Loop through the results
+        print_record = ''
+        for record in records:
+            print_record += str(record[0]) + ' ' + str(record[1]) + ' ' + str(record[2]) + ' ' + str(
+                record[3]) + ' ' + str(record[4]) + ' ' + str(record[5]) + ' ' + str(record[6]) + ' ' + str(
+                record[7]) + ' ' + str(record[8]) + ' ' + str(record[9]) + ' ' + str(record[10]) + ' ' + str(
+                record[11]) + ' ' + str(record[12]) + "\n"
+        print("showing data", print_record)
+        query_label = Label(details_frame, text=print_record)
+        query_label.place(x=0, y=0)
+        conn.commit()
+        conn.close()
+
+    def delete():
+        # Create a databases or connect to one
+        conn = sqlite3.connect('address_book1.db')
+        # Create cursor
+        c = conn.cursor()
+        # Delete a record
+        c.execute("DELETE from addresses WHERE oid = " + txtsearch.get())
+        print("deleted sucessfully")
+        # query of databases
+        c.execute("SELECT *, oid FROM addresses")
+        records = c.fetchall()
+        print(records)
+        # Loop through the results
+        print_record = ''
+        for record in records:
+            print_record += str(record[0]) + ' ' + str(record[1]) + ' ' + str(record[2]) + ' ' + str(
+                record[3]) + ' ' + str(
+                record[4]) + ' ' + str(record[5]) + ' ' + str(record[6]) + ' ' + str(record[7]) + ' ' + str(
+                record[8]) + ' ' + str(record[9]) + ' ' + str(record[10]) + ' ' + str(record[11]) + ' ' + str(
+                record[12]) + "\n"
+        query_label = Label(details_frame, text=print_record)
+        query_label.place(x=0, y=0)
+        conn.commit()
+        conn.close()
+        messagebox.showinfo("Deleted successfully", "Data Deleted sucessfully")
