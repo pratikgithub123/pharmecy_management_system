@@ -1,4 +1,3 @@
-#imports
 from tkinter import *
 from PIL import Image,ImageTk
 from tkinter import ttk
@@ -372,11 +371,9 @@ def login_page():
     txtsearch.grid(row=7,column=0,padx=3, pady=3)
     ShowAllbtn = Button(DataFrameRight, text="Show All", font=("arial", 12, "bold"), width=14, fg="white", bg="darkgreen", command=query)
     ShowAllbtn.grid(row=9, column=0,padx=3, pady=3)
-
     #Details frame
     details_frame=Frame(root,bd=10,relief=RIDGE)
     details_frame.place(x=0,y=540,width=1279,height=300)
-
     #details and scrollbar
     sc_x=ttk.Scrollbar(details_frame,orient=HORIZONTAL)
     sc_x.pack(side=BOTTOM,fill=X)
