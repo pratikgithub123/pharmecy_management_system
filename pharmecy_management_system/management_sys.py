@@ -1,3 +1,4 @@
+#imports
 from tkinter import *
 from PIL import Image,ImageTk
 from tkinter import ttk
@@ -50,20 +51,19 @@ def login_page():
         conn.commit()
         conn.close()
         # clear the text boxes
-        Refno_entry.delete(0, END)
-        Company_entry.delete(0, END)
-        MedType_combo.delete(0, END)
-        Medname_entry.delete(0, END)
-        Lot_entry.delete(0, END)
-        Issue_entry.delete(0, END)
-        Expiry_entry.delete(0, END)
-        Dosage_entry.delete(0, END)
-        Tablets_entry.delete(0, END)
-        Precs_entry.delete(0, END)
-        Uses_entry.delete(0, END)
-        Sideeffects_entry.delete(0, END)
+        Refno_entry.delete(0,END)
+        Company_entry.delete(0,END)
+        MedType_combo.delete(0,END)
+        Medname_entry.delete(0,END)
+        Lot_entry.delete(0,END)
+        Issue_entry.delete(0,END)
+        Expiry_entry.delete(0,END)
+        Dosage_entry.delete(0,END)
+        Tablets_entry.delete(0,END)
+        Precs_entry.delete(0,END)
+        Uses_entry.delete(0,END)
+        Sideeffects_entry.delete(0,END)
         messagebox.showinfo("Medicine added", "MEDICINE ADDED SUCCESSFULLY")
-
     def query():
         # Create a databases or connect to one
         conn = sqlite3.connect('address_book1.db')
@@ -72,20 +72,16 @@ def login_page():
         # query of the database
         c.execute("SELECT *, oid FROM addresses")
         records = c.fetchall()
-        print("After show button", records)
+        print("After show button",records)
         # Loop through the results
-        print_record = ''
+        print_record=''
         for record in records:
-            print_record += str(record[0]) + ' ' + str(record[1]) + ' ' + str(record[2]) + ' ' + str(
-                record[3]) + ' ' + str(record[4]) + ' ' + str(record[5]) + ' ' + str(record[6]) + ' ' + str(
-                record[7]) + ' ' + str(record[8]) + ' ' + str(record[9]) + ' ' + str(record[10]) + ' ' + str(
-                record[11]) + ' ' + str(record[12]) + "\n"
+            print_record += str(record[0]) + ' ' + str(record[1])+' '+ str(record[2])+ ' ' + str(record[3]) + ' ' + str(record[4]) + ' ' +  str(record[5]) + ' ' +  str(record[6]) + ' ' +  str(record[7]) + ' ' +  str(record[8]) + ' ' +  str(record[9]) + ' ' +  str(record[10]) + ' ' +  str(record[11]) + ' ' +  str(record[12]) + "\n"
         print("showing data", print_record)
         query_label = Label(details_frame, text=print_record)
-        query_label.place(x=0, y=0)
+        query_label.place(x=0,y=0)
         conn.commit()
         conn.close()
-
     def delete():
         # Create a databases or connect to one
         conn = sqlite3.connect('address_book1.db')
@@ -101,39 +97,145 @@ def login_page():
         # Loop through the results
         print_record = ''
         for record in records:
-            print_record += str(record[0]) + ' ' + str(record[1]) + ' ' + str(record[2]) + ' ' + str(
-                record[3]) + ' ' + str(
+            print_record += str(record[0]) + ' ' + str(record[1]) + ' ' + str(record[2]) + ' ' + str(record[3]) + ' ' + str(
                 record[4]) + ' ' + str(record[5]) + ' ' + str(record[6]) + ' ' + str(record[7]) + ' ' + str(
                 record[8]) + ' ' + str(record[9]) + ' ' + str(record[10]) + ' ' + str(record[11]) + ' ' + str(
-                record[12]) + "\n"
+                record[12])  + "\n"
         query_label = Label(details_frame, text=print_record)
-        query_label.place(x=0, y=0)
+        query_label.place(x=0,y=0)
         conn.commit()
         conn.close()
         messagebox.showinfo("Deleted successfully", "Data Deleted sucessfully")
-
-        def edit():
-            global editor
-            editor = Tk()
-            editor.title('Update Data')
-            editor.geometry('600x600')
+    def edit():
+        global editor
+        editor = Tk()
+        editor.title('Update Data')
+        editor.geometry('600x600')
+        # Create a databases or connect to one
+        conn = sqlite3.connect('address_book1.db')
+        # Create cursor
+        c = conn.cursor()
+        record_id = txtsearch.get()
+        # query of the database
+        c.execute("SELECT * FROM addresses WHERE oid=" + record_id)
+        records = c.fetchall()
+        #Creating global variable for all text boxes
+        global ref_no_editor
+        global Company_editor
+        global med_type_editor
+        global med_name_editor
+        global lot_no_editor
+        global issue_editor
+        global dosage_editor
+        global tab_price_editor
+        global precs_editor
+        global uses_editor
+        global side_effects_editor
+        # Creating an update function
+        def update():
             # Create a databases or connect to one
             conn = sqlite3.connect('address_book1.db')
             # Create cursor
             c = conn.cursor()
             record_id = txtsearch.get()
-            # query of the database
-            c.execute("SELECT * FROM addresses WHERE oid=" + record_id)
-            records = c.fetchall()
-            # Creating global variable for all text boxes
-            global ref_no_editor
-            global Company_editor
-            global med_type_editor
-            global med_name_editor
-            global lot_no_editor
-            global issue_editor
-            global dosage_editor
-            global tab_price_editor
-            global precs_editor
-            global uses_editor
-            global side_effects_editor
+            c.execute(""" UPDATE addresses SET
+                 ref_no = :ref,
+                 company_name = :company,
+                 med_type = :med_t,
+                 med_name = :med_n,
+                 lot_no = :lot,
+                 issue_date = :issue,
+                 expiry_date = :expiry,
+                 dosage = :dos,
+                 tab_price = :tab_p,
+                 precs_warning = :precs,
+                 uses = :use,
+                 side_effects = :side
+                 WHERE oid = :oid""",
+                      {'ref': ref_no_editor.get(),
+                       'company': Company_editor.get(),
+                       'med_t': med_type_editor.get(),
+                       'med_n': med_name_editor.get(),
+                       'lot': lot_no_editor.get(),
+                       'issue': issue_editor.get(),
+                       'expiry': expiry_editor.get(),
+                       'dos': dosage_editor.get(),
+                       'tab_p': tab_price_editor.get(),
+                       'precs': precs_editor.get(),
+                       'use': uses_editor.get(),
+                       'side': side_effects_editor.get(),
+                       'oid': record_id
+                       }
+                      )
+            conn.commit()
+            conn.close()
+            messagebox.showinfo("Updated sucessfully","YOUR DATA HAVE BEEN SUCCESSFULLY UPDATED")
+            # Destroying all the data and closing window
+            editor.destroy()
+       # Create text boxes
+        ref_no_editor = Entry(editor, width=30)
+        ref_no_editor.grid(row=0, column=1, padx=20, pady=(10, 0))
+        Company_editor = Entry(editor, width=30)
+        Company_editor.grid(row=1, column=1, padx=20, pady=(10, 0))
+        med_type_editor = Entry(editor, width=30)
+        med_type_editor.grid(row=2, column=1, padx=20, pady=(10, 0))
+        med_name_editor = Entry(editor, width=30)
+        med_name_editor.grid(row=3, column=1, padx=20, pady=(10, 0))
+        lot_no_editor = Entry(editor, width=30)
+        lot_no_editor.grid(row=4, column=1, padx=20, pady=(10, 0))
+        issue_editor = Entry(editor, width=30)
+        issue_editor.grid(row=5, column=1, padx=20, pady=(10, 0))
+        expiry_editor = Entry(editor, width=30)
+        expiry_editor.grid(row=6, column=1, padx=20, pady=(10, 0))
+        dosage_editor = Entry(editor, width=30)
+        dosage_editor.grid(row=7, column=1, padx=20, pady=(10, 0))
+        tab_price_editor = Entry(editor, width=30)
+        tab_price_editor.grid(row=8, column=1, padx=20, pady=(10, 0))
+        precs_editor = Entry(editor, width=30)
+        precs_editor.grid(row=9, column=1, padx=20, pady=(10, 0))
+        uses_editor = Entry(editor, width=30)
+        uses_editor.grid(row=10, column=1, padx=20, pady=(10, 0))
+        side_effects_editor = Entry(editor, width=30)
+        side_effects_editor.grid(row=11, column=1, padx=20, pady=(10, 0))
+        # Create textbox labels
+        ref_no_label = Label(editor, text="Refrence no")
+        ref_no_label.grid(row=0, column=0, pady=(10, 0))
+        Company_label = Label(editor, text="Company/Customer Name")
+        Company_label.grid(row=1, column=0)
+        med_type_label = Label(editor, text="Medicine Type")
+        med_type_label.grid(row=2, column=0)
+        med_name_label = Label(editor, text="Medicine Type")
+        med_name_label.grid(row=3, column=0)
+        lot_no_label = Label(editor, text="Lot no.")
+        lot_no_label.grid(row=4, column=0)
+        issue_label = Label(editor, text="Issue Date.")
+        issue_label.grid(row=5, column=0)
+        expiry_label = Label(editor, text="Expiry Date")
+        expiry_label.grid(row=6, column=0)
+        dosage_label = Label(editor, text="Dosage")
+        dosage_label.grid(row=7, column=0)
+        tab_price_label = Label(editor, text="Tablets price")
+        tab_price_label.grid(row=8, column=0)
+        precs_label = Label(editor, text="Precs & Warning")
+        precs_label.grid(row=9, column=0)
+        uses_label = Label(editor, text=" Uses")
+        uses_label.grid(row=10, column=0)
+        side_effects_label = Label(editor, text=" Side Effects")
+        side_effects_label.grid(row=11, column=0)
+        # loop through the results
+        for record in records:
+            ref_no_editor.insert(0, record[0])
+            Company_editor.insert(0, record[1])
+            med_type_editor.insert(0, record[2])
+            med_name_editor.insert(0, record[3])
+            lot_no_editor.insert(0, record[4])
+            issue_editor.insert(0, record[5])
+            expiry_editor.insert(0, record[6])
+            dosage_editor.insert(0, record[7])
+            tab_price_editor.insert(0, record[8])
+            precs_editor.insert(0, record[9])
+            uses_editor.insert(0, record[10])
+            side_effects_editor.insert(0, record[11])
+        # Create a update button
+        edit_btn = Button(editor, text=" SAVE ", command=update)
+        edit_btn.grid(row=12, column=0, columnspan=2, pady=10, padx=10, ipadx=125)
