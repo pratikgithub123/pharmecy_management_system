@@ -4,6 +4,7 @@ from tkinter import ttk
 import sqlite3
 from tkinter import messagebox
 def login_page():
+
     #Databases
     # Create a databases or connect to one
     conn = sqlite3.connect('address_book1.db')
@@ -26,6 +27,7 @@ def login_page():
             side_effects text
     ) """)
     '''
+
     # Create submit button for databases
     def submit():
         # Create a databases or connect to one
