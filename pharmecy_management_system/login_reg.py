@@ -47,3 +47,29 @@ def login():
     password_login_entry.pack()
     Label(login_screen, text="").pack()
     Button(login_screen, text="Login", width=10, height=1, font=("Times", "12", "bold"),command=login_verify).pack()
+def register_user():
+    username_info = username.get()
+    password_info = password.get()
+    file = open(username_info, "w")
+    file.write(username_info + "\n")
+    file.write(password_info)
+    file.close()
+    username_entry.delete(0, END)
+    password_entry.delete(0, END)
+    messagebox.showinfo("Success","Registration Success")
+def login_verify():
+    username1 = username_verify.get()
+    password1 = password_verify.get()
+    username_login_entry.delete(0, END)
+    password_login_entry.delete(0, END)
+    list_of_files = os.listdir()
+    if username1 in list_of_files:
+        file1 = open(username1, "r")
+        verify = file1.read().splitlines()
+        if password1 in verify:
+            login_sucess()
+        else:
+            password_not_recognised()
+    else:
+        user_not_found()
+#popup for login sucess
