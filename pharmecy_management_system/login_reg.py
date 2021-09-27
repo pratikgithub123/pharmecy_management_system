@@ -93,3 +93,15 @@ def delete_password_not_recognised():
 def delete_user_not_found():
     user_not_found_screen.destroy()
 # designing main window
+def main_account_screen():
+    global main_screen
+    main_screen = Tk()
+    main_screen.geometry("310x230")
+    main_screen.title("Login Or Registration")
+    Label(text="Login Or Registration",height ="2", bg="orange", width="310",font=("Times", "15", "bold italic")).pack()
+    Label(text="").pack()
+    Button(text="Login", height="1", width="28",font=("Times", "12", "bold"), command=login).pack()
+    Label(text="").pack()
+    Button(text="Register",height="1", width="28",font=("Times", "12", "bold"), command=register).pack()
+    main_screen.mainloop()
+main_account_screen()
